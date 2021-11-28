@@ -1,0 +1,93 @@
+﻿@using Managers
+@{ 
+    SidebarManager.Init(); 
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <!-- Scrollbar Custom CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+    <link rel="stylesheet" href="~/css/base.css" />
+    <!-- Scrollbar Icons (Font Awesome)-->
+    <!-- Font Awesome JS -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+    @RenderSection("Head", required: true)
+</head>
+
+<body>
+    @* Expanding Sidebar: https://bootstrapious.com/p/bootstrap-sidebar *@
+    <div class="base-sidebar-wrapper">
+        <!-- Sidebar  -->
+        <nav id="sidebar" @if (SidebarManager.Expanded) { 
+            @: class="active"
+            }>
+            <div class="sidebar-header" id="sidebarCollapse">
+                <h3>SLHub</h3>
+                <strong>SH</strong>
+            </div>
+            <ul class="list-unstyled components">
+                <li>
+                    <a asp-page="/MainMenu/Index">
+                        <i class="fas fa-home"></i> <b>Home</b>
+                    </a>
+                </li>
+                <li>
+                    <a asp-page="/Clicker/Index">
+                        <i class="fas fa-mouse-pointer"></i> <b>Clicker</b>
+                    </a>
+                </li>
+                <li>
+                    <a asp-page="/MainMenu/Index">
+                        <i class="fas fa-keyboard"></i> <b>Shortcuts</b>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        @* Body: *@
+        <div id="content">
+            @* Header:*@
+            @RenderSection("Header", required: false)
+            @RenderBody()
+            @* Footer: *@
+            @RenderSection("Footer", required: false)
+        </div>
+    </div>
+    <!-- Jquery, needs early version or this breaks :| -->
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <!-- Popper.JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+    <!-- jQuery Custom Scroller CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+    <!-- Custom sidebar code-->
+    <script src="~/js/base.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
+
+@* Dropdown list in the sidebar example
+    <li class="active">
+        <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+            <i class="fas fa-home"></i>
+            Home
+        </a>
+        <ul class="collapse list-unstyled" id="homeSubmenu">
+            <li>
+                <a href="#">Home 1</a>
+            </li>
+            <li>
+                <a href="#">Home 2</a>
+            </li>
+            <li>
+                <a href="#">Home 3</a>
+            </li>
+        </ul>
+    </li>
+*@

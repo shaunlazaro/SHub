@@ -6,19 +6,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Tutorial.Pages
+namespace Tutorial.Pages.Clicker
 {
-    public class PrivacyModel : PageModel
+    public class IndexModel : PageModel
     {
-        private readonly ILogger<PrivacyModel> _logger;
-
-        public PrivacyModel(ILogger<PrivacyModel> logger)
-        {
-            _logger = logger;
-        }
-
         public void OnGet()
         {
+            
         }
     }
 }
