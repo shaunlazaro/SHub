@@ -178,7 +178,7 @@ a, a:hover,a:focus {
     color: var(--sidebar-color);
     transition: all 0.1s;
 }
-
+    /* Minimize Size */
     #sidebar.active {
         min-width: 60px;
         max-width: 60px;
@@ -205,11 +205,15 @@ a, a:hover,a:focus {
             font-size: 2.6em;
         }
 
+    /* Most of the header settings: */
     #sidebar .sidebar-header {
         padding: 15px 0px;
         background: var(--sidebar-header);
     }
-
+        #sidebar .sidebar-header h3 {
+            padding-top: 2px;
+            padding-left: 10px;
+        }
         #sidebar .sidebar-header:hover {
             background: var(--sidebar-hover);
         }
@@ -220,6 +224,7 @@ a, a:hover,a:focus {
             font-size: 1.8em;
         }
 
+    /* Actual list element styles: */
     #sidebar ul li.active > a, a[aria-expanded="true"] {
         color: #fff;
         background: var(--sidebar-expanded);
@@ -227,7 +232,7 @@ a, a:hover,a:focus {
 
     #sidebar ul li a {
         text-align: left;
-        padding: 10px 10px;
+        padding: 15px 10px 6px 4px;
         font-size: 1.1em;
         display: block;
     }
@@ -238,7 +243,7 @@ a, a:hover,a:focus {
         }
 
     #sidebar.active ul li a {
-        padding: 15px 0px 15px 4px; /* Right shift the icons or it won't fit lol*/
+        padding: 15px 0px 6px 4px; /* Right shift the icons or it won't fit lol*/
         text-align: center;
         align-content: center;
         font-size: 1.3em;
@@ -261,8 +266,9 @@ a, a:hover,a:focus {
         transform: translateX(50%);
     }
 
+    /* The container under the header (containing all the icons w/ links)*/
     #sidebar ul.components {
-        padding: 20px 2px;
+        padding: 8px 0px 10px 0px;
         border-bottom: 1px solid var(--sidebar); /* The single tiny line underneath the icons in the sidebar */
     }
 
