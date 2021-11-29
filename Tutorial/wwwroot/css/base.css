@@ -1,12 +1,33 @@
-﻿@import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+@import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+/* Colors: */
+:root {
+    --green-darkest: #0f1412;
+    --green-dark: #3B5249;
+    --green-mid: #5D8566;
+    --green-light: #519872;
+    --green-lightest: #A4B494;
+    --white: #fff;
+    --unused: #F1707A;
+    --body: var(--white);
+    --titlebar: var(--green-darkest);
+    --titlebar-color: var(--white);
+    --sidebar: var(--green-darkest);
+    --sidebar-color: var(--white);
+    --sidebar-hover: var(--green-light);
+    --sidebar-hover-color: var(--white);
+    --sidebar-header: var(--green-dark);
+    --sidebar-header-hover: var(--green-light);
+    --sidebar-expanded: var(--unused);
+}
+
 /* ---------------------------------------------------
     GENERAL SETTINGS
 ----------------------------------------------------- */
 /* Base font/colors */
 body {
     font-family: 'Poppins', sans-serif;
-    background: #fafafa;
-    border: 1px solid #48545c;
+    background: var(--body);
+    border: 1px solid var(--titlebar);
     overflow-y: hidden;
 }
 p {
@@ -35,8 +56,8 @@ a, a:hover,a:focus {
     position: fixed;
     height: 32px;
     width: calc(100% - 2px); /*Compensate for body 1px border*/
-    background-color: lightgray;
-    color: #FFF;
+    background-color: var(--titlebar);
+    color: var(--titlebar-color);
     padding: 4px;
 }
     #titlebar #drag-region {
@@ -153,50 +174,73 @@ a, a:hover,a:focus {
 #sidebar {
     min-width: 250px;
     max-width: 250px;
-    background: #7386D5;
-    color: #fff;
+    background: var(--sidebar);
+    color: var(--sidebar-color);
     transition: all 0.1s;
 }
 
     #sidebar.active {
-        min-width: 80px;
-        max-width: 80px;
+        min-width: 60px;
+        max-width: 60px;
         text-align: center;
     }
         /* Put "Expanded" header text in H3, "Collapsed" header text as strong*/
         #sidebar.active .sidebar-header h3,
-        #sidebar.active .CTAs {
+        #sidebar.active .CTAs{
             display: none;
         }
 
         #sidebar.active .sidebar-header strong {
             display: block;
         }
+        #sidebar.active .sidebar-header:hover strong {
+            display: none;
+        }
+        #sidebar.active .sidebar-header .show-on-hover {
+            display: none;
+        }
+        #sidebar.active .sidebar-header:hover .show-on-hover {
+            display: inline;
+            padding: 5px 0px 5px 0px;
+            font-size: 2.6em;
+        }
+
+    #sidebar .sidebar-header {
+        padding: 15px 0px;
+        background: var(--sidebar-header);
+    }
+
+        #sidebar .sidebar-header:hover {
+            background: var(--sidebar-hover);
+        }
+
+        #sidebar .sidebar-header strong,
+        #sidebar .sidebar-header .show-on-hover{
+            display: none;
+            font-size: 1.8em;
+        }
 
     #sidebar ul li.active > a, a[aria-expanded="true"] {
         color: #fff;
-        background: #6d7fcc;
+        background: var(--sidebar-expanded);
     }
 
     #sidebar ul li a {
         text-align: left;
-        padding: 10px;
+        padding: 10px 10px;
         font-size: 1.1em;
         display: block;
     }
 
         #sidebar ul li a:hover {
-            color: #7386D5;
-            background: #fff;
-        }
-
-        #sidebar ul li a i {
-            margin-right: 10px;
+            color: var(--sidebar-hover-color);
+            background: var(--sidebar-hover);
         }
 
     #sidebar.active ul li a {
-        padding: 15px 5px;
+        padding: 15px 0px 15px 4px; /* Right shift the icons or it won't fit lol*/
         text-align: center;
+        align-content: center;
         font-size: 1.3em;
     }
 
@@ -217,19 +261,9 @@ a, a:hover,a:focus {
         transform: translateX(50%);
     }
 
-    #sidebar .sidebar-header {
-        padding: 20px;
-        background: #6d7fcc;
-    }
-
-        #sidebar .sidebar-header strong {
-            display: none;
-            font-size: 1.8em;
-        }
-
     #sidebar ul.components {
-        padding: 20px 0;
-        border-bottom: 1px solid #47748b;
+        padding: 20px 2px;
+        border-bottom: 1px solid var(--sidebar); /* The single tiny line underneath the icons in the sidebar */
     }
 
 

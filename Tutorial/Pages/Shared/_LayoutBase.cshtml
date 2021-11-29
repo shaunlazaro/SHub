@@ -13,7 +13,10 @@
     <!-- Scrollbar Custom CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
     <link rel="stylesheet" href="~/css/base.css" />
-    <!-- Scrollbar Icons (Font Awesome)-->
+
+    <!-- Icons -->
+    <script src="https://unpkg.com/boxicons@2.0.9/dist/boxicons.js"></script>
+
     <!-- Font Awesome JS -->
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
@@ -53,22 +56,23 @@
              }>
             <div class="sidebar-header" id="sidebarCollapse">
                 <h3>SLHub</h3>
-                <strong>SH</strong>
+                <strong>SH</strong> 
+                <i class="fas fa-chevron-right show-on-hover"></i>
             </div>
             <ul class="list-unstyled components">
                 <li>
                     <a asp-page="/MainMenu/Index">
-                        <i class="fas fa-home"></i> <b>Home</b>
+                        <box-icon color="white" type="solid" name="home"></box-icon> <b>Home</b>
                     </a>
                 </li>
                 <li>
                     <a asp-page="/Clicker/Index">
-                        <i class="fas fa-mouse-pointer"></i> <b>Clicker</b>
+                        <box-icon color="white" type="solid" name="pointer"></box-icon> <b>Clicker</b>
                     </a>
                 </li>
                 <li>
                     <a asp-page="/MainMenu/Index">
-                        <i class="fas fa-keyboard"></i> <b>Shortcuts</b>
+                        <box-icon color="white" type="solid" name="keyboard"></box-icon> <b>Shortcuts</b>
                     </a>
                 </li>
             </ul>
