@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Tutorial.Managers;
 
 namespace Tutorial.Pages.Clicker
 {
@@ -12,7 +13,8 @@ namespace Tutorial.Pages.Clicker
     {
         public void OnGet()
         {
-            
+            //SidebarManager.Init();
+            //TitlebarManager.Init();
         }
     }
 }

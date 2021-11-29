@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ElectronNET.API;
 using ElectronNET.API.Entities;
+using Tutorial.Managers;
 
 namespace Tutorial
 {
@@ -67,14 +68,20 @@ namespace Tutorial
             BrowserWindowOptions options = new BrowserWindowOptions
             {
                 Show = false,
-                //Frame = false, // Sucks because you need to ALT+F4 the window
+                Frame = false,
             };
 
-            BrowserWindow mainWindow = await Electron.WindowManager.CreateWindowAsync(options);
-            //await mainWindow.WebContents.Session.ClearCacheAsync();
-            //await mainWindow.WebContents.Session.ClearStorageDataAsync();
+            BrowserWindow window = await Electron.WindowManager.CreateWindowAsync(options);
+            await window.WebContents.Session.ClearCacheAsync();
 
-            mainWindow.OnReadyToShow += mainWindow.Show;
+            // We set up the window controls here because it's a bit fucky.
+            window.OnMaximize += TitlebarManager.ToggleMaxRestoreButtons;
+            window.OnUnmaximize += TitlebarManager.ToggleMaxRestoreButtons;
+            TitlebarManager.Restore += window.Restore;
+            TitlebarManager.Maximize += window.Maximize;
+            TitlebarManager.Minimize += window.Minimize;
+            TitlebarManager.Close += window.Close;
+            window.OnReadyToShow += window.Show;
         }
     }
 }
