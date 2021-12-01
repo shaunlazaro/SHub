@@ -6,7 +6,7 @@
   "name": "Tutorial",
   "author": "",
   "singleInstance": false,
-  "environment": "Production",
+  "environment": "Debug",
   "build": {
     "appId": "com.Tutorial.app",
     "productName": "Tutorial",

@@ -10,11 +10,16 @@ using Tutorial.Managers;
 namespace Tutorial.Pages.Clicker
 {
     public class IndexModel : PageModel
-    {
+    {   
         public void OnGet()
         {
-            //SidebarManager.Init();
-            //TitlebarManager.Init();
+            InitEvents();
+        }
+
+
+        void InitEvents()
+        {
+
         }
     }
 }
