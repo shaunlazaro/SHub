@@ -1,17 +1,30 @@
-﻿@{
+﻿@using Managers
+@{
     Layout = "_LayoutBase";
 }
 
 @section Head
 {
     <title> @ViewData["Title"] </title>
+    <link rel="stylesheet" href="~/css/clicker.css" />
 }
 
-<div class="container">
-    <main role="main" class="pb-3">
-        @RenderBody()
-    </main>
+<div id="header-parent" class="container-fluid">
+    <div class="row">
+        @RenderSection("Header", required: true)
+    </div>
 </div>
+<div id="content-parent" class="container-fluid">
+    <div class="row h-100">
+        @RenderBody()
+    </div>
+</div>
+
+@* We don't have any footer on this page.*@
+@section Footer
+{
+
+}
 
 @section Scripts
 {

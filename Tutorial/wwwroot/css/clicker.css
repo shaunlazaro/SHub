@@ -1,0 +1,42 @@
+﻿:root{
+    --header-height: 73px;
+    --content-height: calc(100% - var(--header-height))
+}
+
+/* ---------------------------------------------------
+    Layout Parents
+----------------------------------------------------- */
+
+#header-parent {
+    -webkit-box-shadow: inset 0px 0px 0px 1px green; /* Testing */
+    height: var(--header-height);
+}
+#content-parent {
+    -webkit-box-shadow: inset 0px 0px 0px 1px red; /* Testing */
+    height: var(--content-height);
+}
+
+
+#left-container {
+    -webkit-box-shadow: inset 0px 0px 0px 1px blue;
+}
+#right-container {
+    -webkit-box-shadow: inset 0px 0px 0px 1px yellow;
+}
+
+/* ---------------------------------------------------
+    Left Container (Buttons + Dynamic List)
+----------------------------------------------------- */
+
+
+/* ---------------------------------------------------
+    Right Container (Tabbed panels)
+----------------------------------------------------- */
+
+
+
+/* ---------------------------------------------------
+    Mobile Formats / Workarounds
+----------------------------------------------------- */
+@media (max-width: 768px) {
+}

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Tutorial.Managers;
+using ElectronNET.API;
 
 namespace Tutorial.Pages.Clicker
 {
@@ -16,10 +17,9 @@ namespace Tutorial.Pages.Clicker
             InitEvents();
         }
 
-
         void InitEvents()
         {
-
+            // APP.GETPATH(home) or something to get save location, load current panels.
         }
     }
 }
