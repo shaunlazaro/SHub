@@ -207,7 +207,7 @@ a, a:hover,a:focus {
 
     /* Most of the header settings: */
     #sidebar .sidebar-header {
-        padding: 15px 0px;
+        padding: 8.5px 0px; /* 43px height base, + paddingtop + paddingbot (8.5 -> 60px header) */
         background: var(--sidebar-header);
     }
         #sidebar .sidebar-header h3 {

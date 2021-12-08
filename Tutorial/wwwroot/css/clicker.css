@@ -1,6 +1,7 @@
 ﻿:root{
-    --header-height: 73px;
-    --content-height: calc(100% - var(--header-height))
+    --header-height: 60px;
+    --content-height: calc(100% - var(--header-height));
+    --left-ele-width: 240px;
 }
 
 /* ---------------------------------------------------
@@ -8,26 +9,57 @@
 ----------------------------------------------------- */
 
 #header-parent {
-    -webkit-box-shadow: inset 0px 0px 0px 1px green; /* Testing */
     height: var(--header-height);
+    background-color: var(--sidebar-header);
 }
 #content-parent {
-    -webkit-box-shadow: inset 0px 0px 0px 1px red; /* Testing */
     height: var(--content-height);
 }
 
 
 #left-container {
-    -webkit-box-shadow: inset 0px 0px 0px 1px blue;
+    -webkit-box-shadow: inset 0px 0px 0px 2px green;
+    max-width: calc(var(--left-ele-width) + 40px);
+    min-width: calc(var(--left-ele-width) + 40px);
 }
 #right-container {
-    -webkit-box-shadow: inset 0px 0px 0px 1px yellow;
+    -webkit-box-shadow: inset 0px 0px 0px 2px yellow;
 }
 
 /* ---------------------------------------------------
     Left Container (Buttons + Dynamic List)
 ----------------------------------------------------- */
 
+#left-container-controls {
+    height:70px;
+    width:var(--left-ele-width);
+    padding-top:10px;
+    padding-left:0px;
+    padding-bottom:0px;
+    padding-right:0px;
+
+    margin-left:0px;
+}
+    #left-container-controls ul
+    {
+        width:100%;
+        height:100%;
+        padding-left:0px;
+        padding-right:0px;
+    }
+
+    #left-container-controls ul li
+    {
+        height:48px;
+        width:48px;
+    }
+
+#left-container-list {
+    -webkit-box-shadow: inset 0px 0px 0px 2px blue;
+    width: var(--left-ele-width);
+    padding: 0px 0px 0px 0px;
+    margin: 0px 0px 0px 0px;
+}
 
 /* ---------------------------------------------------
     Right Container (Tabbed panels)
