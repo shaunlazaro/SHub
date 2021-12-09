@@ -13,7 +13,7 @@
 }
 @* </header> *@
 
-<div id="left-container" class="col-4 h-100">
+<div id="left-container" class="col-4">
     <div id="left-container-controls" class="container-fluid">
         <ul class="d-flex justify-content-start align-items-end">
             <li class="list-group-item rounded-0"><div class="d-flex align-items-center justify-content-center"><i class="fas fa-plus-circle"></i></div></li>
@@ -22,18 +22,18 @@
         </ul>
     </div>
     <div id="left-container-list" class="container-fluid">
-        <div class="list-group" role="tablist">
-            <a class="list-group-item list-group-item-action" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">Home</a>
-            <a class="list-group-item list-group-item-action" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">Profile</a>
-            <a class="list-group-item list-group-item-action" id="list-messages-list" data-toggle="list" href="#list-messages" role="tab" aria-controls="messages">Messages</a>
-            <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">Settings</a>
+        <div class="list-group shadow" role="tablist">
+            <a class="list-group-item list-group-item-action rounded-0" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">Home</a>
+            <a class="list-group-item list-group-item-action rounded-0" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">Profile</a>
+            <a class="list-group-item list-group-item-action rounded-0" id="list-messages-list" data-toggle="list" href="#list-messages" role="tab" aria-controls="messages">Messages</a>
+            <a class="list-group-item list-group-item-action rounded-0" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">Settings</a>
         </div>
     </div>
 </div>
 
-<div id="right-container" class="col h-100">
-    <div class="tab-content" id="nav-tabContent">
-        <div class="tab-pane fade show active" id="list-none" role="tabpanel" aria-labelledby="list-home-list">Click any list item to view its configuration</div>
+<div class="col d-flex flex-column" id="right-container" >
+    <div class="rounded-lg flex-grow-1" id="settings-pane">
+        <div class="tab-pane fade show active" id="list-none" role="tabpanel" aria-labelledby="list-home-list">Click any list item to view its configuration...</div>
         <div class="tab-pane fade" id="list-home" role="tabpanel" aria-labelledby="list-home-list">1...</div>
         <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">2...</div>
         <div class="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">3...</div>

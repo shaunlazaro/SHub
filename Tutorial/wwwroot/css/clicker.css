@@ -1,6 +1,7 @@
 ﻿:root{
     --header-height: 60px;
     --content-height: calc(100% - var(--header-height));
+    --internal-content-height: calc(var(--content-height) + 27px);
     --left-ele-width: 240px;
 }
 
@@ -21,9 +22,11 @@
     -webkit-box-shadow: inset 0px 0px 0px 2px green;
     max-width: calc(var(--left-ele-width) + 40px);
     min-width: calc(var(--left-ele-width) + 40px);
+    height: var(--internal-content-height);
 }
 #right-container {
     -webkit-box-shadow: inset 0px 0px 0px 2px yellow;
+    height: var(--internal-content-height);
 }
 
 /* ---------------------------------------------------
@@ -39,6 +42,7 @@
     padding-right:0px;
 
     margin-left:0px;
+    margin-bottom:0px;
 }
     #left-container-controls ul
     {
@@ -52,20 +56,32 @@
     {
         height:48px;
         width:48px;
+        margin-bottom:-5px;
+        z-index:0 /* Hover should not bring to top. */
     }
 
 #left-container-list {
     -webkit-box-shadow: inset 0px 0px 0px 2px blue;
     width: var(--left-ele-width);
-    padding: 0px 0px 0px 0px;
-    margin: 0px 0px 0px 0px;
+    padding: 0px;
+    margin: 0px;
 }
 
 /* ---------------------------------------------------
     Right Container (Tabbed panels)
 ----------------------------------------------------- */
-
-
+#settings-pane{
+    background-color:lightgray;
+    margin-left:1em;
+    margin-right:1em;
+    margin-top:1em;
+    margin-bottom:1em;
+    padding:0.5em;
+    overflow:hidden;
+}
+.fade:not(.show){ /* Flex box causes the panes to touch each other, so we hide em. */
+    display:none;
+}
 
 /* ---------------------------------------------------
     Mobile Formats / Workarounds

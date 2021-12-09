@@ -65,12 +65,13 @@ namespace Tutorial
         // Bootstrap based
         public async void InitWindow()
         {
+            await UserInfoManager.Instance.Init();
+
             BrowserWindowOptions options = new BrowserWindowOptions
             {
                 Show = false,
                 Frame = false,
             };
-
             BrowserWindow window = await Electron.WindowManager.CreateWindowAsync(options);
             await window.WebContents.Session.ClearCacheAsync();
 
@@ -81,6 +82,7 @@ namespace Tutorial
             TitlebarManager.Maximize += window.Maximize;
             TitlebarManager.Minimize += window.Minimize;
             TitlebarManager.Close += window.Close;
+            Electron.App.WindowAllClosed += () => Electron.App.Exit();
             window.OnReadyToShow += window.Show;
         }
     }
