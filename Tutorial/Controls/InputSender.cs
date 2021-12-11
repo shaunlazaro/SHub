@@ -6,9 +6,9 @@ using System.Runtime.InteropServices;
 using static Tutorial.Helpers;
 using WindowsInput;
 using WindowsInput.Native;
-using ElectronNET.API;
 
-namespace Tutorial.Managers
+// Public static methods for sending inputs.
+namespace Tutorial.Controls
 {
     [StructLayout(LayoutKind.Sequential)]
     public struct MousePoint
@@ -23,45 +23,15 @@ namespace Tutorial.Managers
         }
     }
 
-    // Public class for sending controls and binding hotkeys.
-    public static class ControlsManager
+    public enum ClickType
     {
-        static Dictionary<string, Action> hotkeyCallbacks = new Dictionary<string, Action>(); // Follow accelerator syntax from Electron
-        static bool initialized = false;
-        static ControlSender sender = new ControlSender();
-        public static void Init()
-        {
-            if (initialized) return;
-            hotkeyCallbacks.Add("CommandOrControl+Shift+F5", () => { Console.WriteLine("Clicky"); ControlSender.SendClick(); });
-            Task.Run(HandleHotkeyCallbacks);
-            initialized = true;
-        }
-
-        #region Hotkeys
-        // Check if hotkeys are registered as anything.  To change the action itself is hard.
-        static async Task HandleHotkeyCallbacks()
-        {
-            foreach (KeyValuePair<string, Action> pair in hotkeyCallbacks)
-            {
-                if (!await Electron.GlobalShortcut.IsRegisteredAsync(pair.Key))
-                    Electron.GlobalShortcut.Register(pair.Key, pair.Value);
-            }
-        }
-
-        static async Task StopAllHotkeys()
-        {
-            await Task.Run(() => Electron.GlobalShortcut.UnregisterAll());
-        }
-        #endregion
-
-        #region Public Functions
-
-
-        #endregion
+        Left,
+        Right,
+        Middle
     }
 
-    // Functions for actually sending controls.
-    public class ControlSender
+    // Don't use singleton for this, since we should avoid storing state in any way where we'd ever need to worry about when resources are allocated.
+    public static class InputSender
     {
         static Random random = new Random(); // Let's avoid suspicious looking appearance on logs by using rng.
         static InputSimulator inputSim = new InputSimulator(); // https://github.com/michaelnoonan/inputsimulator pinvoke for SendEvent giga sucks.
@@ -70,7 +40,7 @@ namespace Tutorial.Managers
         const int MAX_RANDOM_PRESS_TIME = 60;
 
         // We make our two actions less obviously botted on logs by adding random delay.
-        // Can use for both 
+        // Can use for any down -> up action
         static void WindowsDelayedUpDown(Action down, Action up)
         {
             AssertOnWindows();
@@ -82,17 +52,77 @@ namespace Tutorial.Managers
             });
         }
 
-        public static void SendClick()
+        #region Click Functions
+        public static void SendClickType(ClickType clickType)
         {
-            WindowsDelayedUpDown(() => WindowsMouseControls.MouseEvent(WindowsMouseControls.MouseEventFlags.LeftDown), 
+            switch (clickType)
+            {
+                case ClickType.Left:
+                    SendClick();
+                    break;
+                case ClickType.Right:
+                    SendRightClick();
+                    break;
+                case ClickType.Middle:
+                    SendMiddleClick();
+                    break;
+                default:
+                    Console.WriteLine("InputSender recieved invalid ClickType");
+                    break;
+            }
+        }
+        public static void SendClickTypeInstant(ClickType clickType)
+        {
+            switch (clickType)
+            {
+                case ClickType.Left:
+                    SendClickInstant();
+                    break;
+                case ClickType.Right:
+                    SendRightClickInstant();
+                    break;
+                case ClickType.Middle:
+                    SendMiddleClickInstant();
+                    break;
+                default:
+                    Console.WriteLine("InputSender recieved invalid ClickType");
+                    break;
+            }
+        }
+
+        static void SendClick()
+        {
+            WindowsDelayedUpDown(() => WindowsMouseControls.MouseEvent(WindowsMouseControls.MouseEventFlags.LeftDown),
                     () => WindowsMouseControls.MouseEvent(WindowsMouseControls.MouseEventFlags.LeftUp));
         }
-        public static void SendClickInstant()
+        static void SendClickInstant()
         {
             WindowsMouseControls.MouseEvent(WindowsMouseControls.MouseEventFlags.LeftDown);
             WindowsMouseControls.MouseEvent(WindowsMouseControls.MouseEventFlags.LeftUp);
         }
+        static void SendRightClick()
+        {
+            WindowsDelayedUpDown(() => WindowsMouseControls.MouseEvent(WindowsMouseControls.MouseEventFlags.RightDown),
+                () => WindowsMouseControls.MouseEvent(WindowsMouseControls.MouseEventFlags.RightUp));
+        }
+        static void SendRightClickInstant()
+        {
+            WindowsMouseControls.MouseEvent(WindowsMouseControls.MouseEventFlags.RightDown);
+            WindowsMouseControls.MouseEvent(WindowsMouseControls.MouseEventFlags.RightUp);
+        }
+        static void SendMiddleClick()
+        {
+            WindowsDelayedUpDown(() => WindowsMouseControls.MouseEvent(WindowsMouseControls.MouseEventFlags.MiddleDown),
+                () => WindowsMouseControls.MouseEvent(WindowsMouseControls.MouseEventFlags.MiddleUp));
+        }
+        static void SendMiddleClickInstant()
+        {
+            WindowsMouseControls.MouseEvent(WindowsMouseControls.MouseEventFlags.MiddleDown);
+            WindowsMouseControls.MouseEvent(WindowsMouseControls.MouseEventFlags.MiddleUp);
+        }
+        #endregion
 
+        #region Keyboard Functions
         public static void SendKeyPressInstant(VirtualKeyCode key)
         {
             SendKeyPressInstant(new VirtualKeyCode[] { key });
@@ -101,13 +131,13 @@ namespace Tutorial.Managers
         {
             inputSim.Keyboard.KeyPress(keys);
         }
-
-        // We don't have a delayed keyupdown for multi keys, since we're not sending them instantly in sequence...
+        // We don't have a delayed keyupdown for multi keys, since it's not possible to send both instantly and with the random delay.
         public static void SendKeyPress(VirtualKeyCode key)
         {
             WindowsDelayedUpDown(() => inputSim.Keyboard.KeyDown(key),
                 () => inputSim.Keyboard.KeyUp(key));
         }
+        #endregion
 
         // https://stackoverflow.com/questions/2416748/how-do-you-simulate-mouse-click-in-c
         private class WindowsMouseControls
@@ -173,6 +203,6 @@ namespace Tutorial.Managers
                 MousePoint position = GetCursorPosition();
                 MouseEvent(value, position);
             }
-		}
-	}
+        }
+    }
 }
