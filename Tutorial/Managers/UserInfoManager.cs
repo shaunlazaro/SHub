@@ -27,6 +27,13 @@ namespace Tutorial.Managers
         }
         #endregion
 
+        // Access using UserInfoManager.Instance.Variable
+        // Public variables that are part of UserData should be accessed through mUserData in a getter,
+        // and the setter should save if modifying directly is allowed.
+        #region Public Variables
+        public int NumberOfSavesPerformed { get => userData.numberOfSavesPerformed; set { userData.numberOfSavesPerformed = value; } }
+        #endregion
+
         #region I/O
         private async Task Load()
         {
@@ -59,13 +66,6 @@ namespace Tutorial.Managers
                 streamWriter.Write(textToWrite);
             }
         }
-        #endregion
-
-        // Access using UserInfoManager.Instance.Variable
-        // Public variables that are part of UserData should be accessed through mUserData in a getter,
-        // and the setter should save if modifying directly is allowed.
-        #region Public Variables
-        public int NumberOfSavesPerformed { get => userData.numberOfSavesPerformed; set { userData.numberOfSavesPerformed = value;} }
         #endregion
     }
 
