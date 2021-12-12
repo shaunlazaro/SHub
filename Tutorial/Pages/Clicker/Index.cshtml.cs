@@ -19,27 +19,33 @@ namespace Tutorial.Pages.Clicker
         public List<MacroDetails> Macros
         {
             get { return macros; }
-            set { macros = value; Task.Run(RefreshMacroShortcuts); }
+            set { macros = value;}
         }
-        public List<Macro> activeMacros = new List<Macro>();
-
 
         public void OnGet()
         {
-            Macros = Helpers.DefaultMacroDetails();
+            macros.Clear();
+            macros = Helpers.DefaultMacroDetails();
+            macros.AddRange(UserInfoManager.Instance.CustomMacros);
+            SaveMacros();
+            Task.Run(() => RefreshMacroShortcuts());
+        }
+
+        void SaveMacros()
+        {
+            UserInfoManager.Instance.CustomMacros = Macros;
         }
 
         async void RefreshMacroShortcuts()
         {
-            activeMacros.Clear();
+            Console.WriteLine($"Running RefreshMacroShortcuts(), macrosCount: {macros.Count}, CustomMacros: {UserInfoManager.Instance.CustomMacros.Count}...");
             foreach (MacroDetails macro in macros)
             {
-                Macro macroAction = new Macro();
-                macroAction.Init(macro.specs);
-                macro.macro = macroAction;
-                activeMacros.Add(macroAction);
-                await HotkeyManager.AddNewHotkey(macro.GetElectronShortcutString(), async () => await macroAction.ToggleActing());
+                macro.macro = new Macro();
+                macro.macro.Init(macro.specs);
+                await HotkeyManager.Instance.AddNewHotkey(macro.GetElectronShortcutString(), async () => await macro.macro.ToggleActing(), false);
             }
+            await HotkeyManager.Instance.Refresh();
         }
     }
 }

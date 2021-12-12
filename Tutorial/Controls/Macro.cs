@@ -13,36 +13,34 @@ namespace Tutorial.Controls
     {
         public async void Init(ActionSpecs specs)
         {
-            if (Ready && running)
+            if (Ready && strategy.Running)
                 await StopActing();
             strategy = MacroStrategyFactory.GetStrategy(specs);
         }
         public bool Ready => strategy != null;
 
-        bool running = false;
         IMacroStrategy strategy = null;
 
         public async Task BeginActing()
         {
-            if (!Ready || running)
+            if (!Ready || strategy.Running)
                 return;
-            running = true;
             await strategy.StartAction();
             return;
         }
 
         public async Task StopActing()
         {
-            if (!Ready || !running)
+            if (!Ready || !strategy.Running)
                 return;
             await strategy.StopAction();
-            running = false;
             return;
         }
 
         public async Task ToggleActing()
         {
-            if (running)
+            if (!Ready) return;
+            if (strategy.Running)
                 await StopActing();
             else
                 await BeginActing();
@@ -74,6 +72,12 @@ namespace Tutorial.Controls
         }
     }
 
+    public class MacroDetailsComparer : IEqualityComparer<MacroDetails>
+    {
+        public bool Equals(MacroDetails a, MacroDetails b) => a.name == b.name;
+        public int GetHashCode(MacroDetails a) => a.GetHashCode();
+    }
+
     // Settings format.  Default is a click.
     [Serializable]
     public class ActionSpecs
@@ -83,8 +87,8 @@ namespace Tutorial.Controls
 
         // Repeated settings.  Disregard if not repeated.
         public bool repeated = false;
-        public int repCount = 0; // <1 means infinite
-        public int delay = 1000; // 1 second delay default
+        public int repCount = -1; // val < 0 means infinite
+        public int repDelay = 1000; // 1 second delay default
 
         // keypress settings, ok to be null if isKeypress false.
         public List<string> keyPressModifiers;

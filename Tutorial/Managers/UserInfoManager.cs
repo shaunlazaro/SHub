@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ElectronNET.API;
 using Newtonsoft.Json;
+using Tutorial.Controls;
 
 namespace Tutorial.Managers
 {
@@ -32,6 +33,15 @@ namespace Tutorial.Managers
         // and the setter should save if modifying directly is allowed.
         #region Public Variables
         public int NumberOfSavesPerformed { get => userData.numberOfSavesPerformed; set { userData.numberOfSavesPerformed = value; } }
+        public List<MacroDetails> CustomMacros { get => userData.customMacros; 
+            set 
+            {
+                List<MacroDetails> blackList = Helpers.DefaultMacroDetails();
+                List<MacroDetails> newList = value;
+                newList = newList.Except(blackList, new MacroDetailsComparer()).ToList();
+                Save(); 
+            } 
+        } // Make sure default macros are never saved here.
         #endregion
 
         #region I/O
@@ -73,5 +83,6 @@ namespace Tutorial.Managers
     class UserData  // It's a model in a manager folder :)
     {
         public int numberOfSavesPerformed = 0;
+        public List<MacroDetails> customMacros = new List<MacroDetails>();
     }
 }

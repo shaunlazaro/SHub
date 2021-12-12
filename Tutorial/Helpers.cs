@@ -36,6 +36,34 @@ namespace Tutorial
                     keyCode = "F"
                 }
             });
+            defaults.Add(new MacroDetails
+            {
+                name = "RepeatedClickDefaultMacro",
+                index = 2,
+                modifiers = new List<string> { "CommandOrControl" },
+                shortcutKey = "F7",
+                specs = new ActionSpecs
+                {
+                    isClick = true,
+                    clickType = 0,
+                    repeated = true,
+                    repDelay = 200
+                }
+            });
+            defaults.Add(new MacroDetails
+            {
+                name = "RepeatedKeyDefaultMacro",
+                index = 3,
+                modifiers = new List<string> { "CommandOrControl" },
+                shortcutKey = "F8",
+                specs = new ActionSpecs
+                {
+                    isKeypress = true,
+                    keyCode = "F",
+                    repeated = true,
+                    repDelay = 200
+                }
+            });
 
             return defaults;
         }

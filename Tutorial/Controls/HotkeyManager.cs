@@ -11,26 +11,15 @@ using ElectronNET.API;
 namespace Tutorial.Controls
 {
     // Public class for sending controls and binding hotkeys.
-    public static class HotkeyManager
+    public class HotkeyManager
     {
-        static Dictionary<string, Action> hotkeyCallbacks = new Dictionary<string, Action>(); // Follow accelerator syntax from Electron
-        static bool initialized = false;
-        public static void Init()
+        private HotkeyManager() { }
+        static Lazy<HotkeyManager> instance = new Lazy<HotkeyManager>(() => new HotkeyManager());
+        public static HotkeyManager Instance { get => instance.Value; }
+
+        Dictionary<string, Action> hotkeyCallbacks = new Dictionary<string, Action>(); // Follow accelerator syntax from Electron
+        public async Task AddNewHotkey(string key, Action action, bool refresh=true)
         {
-            if (initialized) return;
-            /*
-            hotkeyCallbacks.Add("CommandOrControl+Shift+F5", () => { Console.WriteLine("Clicky"); InputSender.SendClickType(ClickType.Left); });
-            hotkeyCallbacks.Add("CommandOrControl+Shift+F6", () => { Console.WriteLine("KeyPress"); InputSender.SendKeyPress(VirtualKeyCode.VK_P); });
-            Task.Run(HandleHotkeyCallbacks);
-            */
-            initialized = true;
-        }
-        public static async Task AddNewHotkey(string key, Action action, bool refresh=true)
-        {
-            if (!initialized) return;
-
-
-
             if (!hotkeyCallbacks.ContainsKey(key))
             {
                 Console.WriteLine($"Adding new hotkey: {key}");
@@ -44,16 +33,21 @@ namespace Tutorial.Controls
             if (refresh)
                 await RefreshHotkeys();
         }
+        public async Task Refresh()
+        {
+            await RefreshHotkeys();
+        }
 
         #region Internal Functions
-        static async Task RefreshHotkeys()
+
+        async Task RefreshHotkeys()
         {
             await StopAllHotkeys();
             await HandleHotkeyCallbacks();
         }
 
         // Check if hotkeys are registered as anything.  To change the action itself is hard.
-        static async Task HandleHotkeyCallbacks()
+        async Task HandleHotkeyCallbacks()
         {
             foreach (KeyValuePair<string, Action> pair in hotkeyCallbacks)
             {
@@ -62,11 +56,10 @@ namespace Tutorial.Controls
             }
         }
 
-        static async Task StopAllHotkeys()
+        async Task StopAllHotkeys()
         {
             await Task.Run(() => Electron.GlobalShortcut.UnregisterAll());
         }
         #endregion
-
     }
 }

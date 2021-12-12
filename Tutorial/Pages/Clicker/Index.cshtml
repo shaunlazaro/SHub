@@ -24,20 +24,25 @@
     </div>
     <div id="left-container-list" class="container-fluid">
         <div class="list-group shadow" role="tablist">
-            <a class="list-group-item list-group-item-action rounded-0" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">Home</a>
-            <a class="list-group-item list-group-item-action rounded-0" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">Profile</a>
-            <a class="list-group-item list-group-item-action rounded-0" id="list-messages-list" data-toggle="list" href="#list-messages" role="tab" aria-controls="messages">Messages</a>
-            <a class="list-group-item list-group-item-action rounded-0" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">Settings</a>
+            @foreach (MacroDetails details in Model.Macros)
+            {
+                <a class="list-group-item list-group-item-action rounded-0" id="list-@details.name-list" data-toggle="list" href="#list-@details.name" role="tab" aria-controls="@details.name">
+                    @details.name
+                </a>
+            }
         </div>
     </div>
 </div>
 
 <div class="col d-flex flex-column" id="right-container" >
     <div class="rounded-lg flex-grow-1" id="settings-pane">
-        <div class="tab-pane fade show active" id="list-none" role="tabpanel" aria-labelledby="list-home-list">Click any list item to view its configuration...</div>
-        <div class="tab-pane fade" id="list-home" role="tabpanel" aria-labelledby="list-home-list">1...</div>
-        <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">2...</div>
-        <div class="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">3...</div>
-        <div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">4...</div>
+        <div class="tab-pane fade show active" id="list-none" role="tabpanel" aria-labelledby="nothin">Click any list item to view its configuration...</div>
+        @foreach (MacroDetails details in Model.Macros)
+        {
+            <div class="tab-pane fade" id="list-@details.name" role="tabpanel" aria-labelledby="list-@details.name-list">
+                @details.name
+                @details.index
+            </div>
+        }
     </div>
 </div>
