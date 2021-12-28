@@ -21,8 +21,19 @@ namespace Tutorial.Pages.Clicker
             get { return macros; }
             set { macros = value;}
         }
+        public bool Listening { get => UserInfoManager.Instance.MacrosListening;
+            set { 
+                UserInfoManager.Instance.MacrosListening = value;
+                Task.Run(OnChangedListeningFlag);
+            } }
 
         public void OnGet()
+        {
+            InitMacros();
+            InitEvents();
+        }
+
+        void InitMacros()
         {
             macros.Clear();
             macros = Helpers.DefaultMacroDetails();
@@ -36,14 +47,39 @@ namespace Tutorial.Pages.Clicker
             UserInfoManager.Instance.CustomMacros = Macros;
         }
 
+        void InitEvents()
+        {
+            Electron.IpcMain.RemoveAllListeners("ClickerToggle");
+            Electron.IpcMain.On("ClickerToggle", OnClickerToggle);
+        }
+
+        void OnClickerToggle(object message)
+        {
+            bool toggled = (bool)message;
+            Listening = toggled;
+        }
+
+        async Task OnChangedListeningFlag()
+        {
+            if (UserInfoManager.Instance.MacrosListening)
+            {
+                await HotkeyManager.Instance.Refresh();
+            }
+            else
+            {
+                await HotkeyManager.Instance.Disable();
+            }
+        }
+
         async void RefreshMacroShortcuts()
         {
             Console.WriteLine($"Running RefreshMacroShortcuts(), macrosCount: {macros.Count}, CustomMacros: {UserInfoManager.Instance.CustomMacros.Count}...");
-            foreach (MacroDetails macro in macros)
+            foreach (MacroDetails macroDetails in macros)
             {
-                macro.macro = new Macro();
-                macro.macro.Init(macro.specs);
-                await HotkeyManager.Instance.AddNewHotkey(macro.GetElectronShortcutString(), async () => await macro.macro.ToggleActing(), false);
+                macroDetails.macro = new Macro();
+                macroDetails.macro.Init(macroDetails.specs);
+                await HotkeyManager.Instance.AddNewHotkey(macroDetails.GetElectronShortcutString(), 
+                    async () => await macroDetails.macro.ToggleActing(), false);
             }
             await HotkeyManager.Instance.Refresh();
         }

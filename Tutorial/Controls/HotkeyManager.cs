@@ -16,7 +16,7 @@ namespace Tutorial.Controls
         private HotkeyManager() { }
         static Lazy<HotkeyManager> instance = new Lazy<HotkeyManager>(() => new HotkeyManager());
         public static HotkeyManager Instance { get => instance.Value; }
-
+        bool listening = false; // Just for internal tracking for now.
         Dictionary<string, Action> hotkeyCallbacks = new Dictionary<string, Action>(); // Follow accelerator syntax from Electron
         public async Task AddNewHotkey(string key, Action action, bool refresh=true)
         {
@@ -37,17 +37,22 @@ namespace Tutorial.Controls
         {
             await RefreshHotkeys();
         }
+        public async Task Disable()
+        {
+            await StopAllHotkeys();
+        }
 
         #region Internal Functions
 
         async Task RefreshHotkeys()
         {
             await StopAllHotkeys();
-            await HandleHotkeyCallbacks();
+            await RegisterNewHotkeys();
+            listening = true;
         }
 
         // Check if hotkeys are registered as anything.  To change the action itself is hard.
-        async Task HandleHotkeyCallbacks()
+        async Task RegisterNewHotkeys()
         {
             foreach (KeyValuePair<string, Action> pair in hotkeyCallbacks)
             {
@@ -59,6 +64,7 @@ namespace Tutorial.Controls
         async Task StopAllHotkeys()
         {
             await Task.Run(() => Electron.GlobalShortcut.UnregisterAll());
+            listening = false;
         }
         #endregion
     }

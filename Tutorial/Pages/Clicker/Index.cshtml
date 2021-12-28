@@ -8,11 +8,19 @@
 @* Inside <header id='header-parent'>*@
 @section Header
 {
-    <div class="col">
-        <p> Hello </p>
+    <div class="col d-flex align-items-center h-100">
+        <input id="global-toggle" type="checkbox" checked="@Model.Listening" data-toggle="toggle" data-onstyle="success" data-on="Listening" data-off="Not Listening">
     </div>
+
 }
 @* </header> *@
+
+@section Scripts
+{
+    <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
+    <script src="~/js/clicker.js" asp-append-version="true"></script>
+}
 
 <div id="left-container" class="col-4">
     <div id="left-container-controls" class="container-fluid">
@@ -34,7 +42,7 @@
     </div>
 </div>
 
-<div class="col d-flex flex-column" id="right-container" >
+<div class="col d-flex flex-column" id="right-container">
     <div class="rounded-lg flex-grow-1" id="settings-pane">
         <div class="tab-pane fade show active" id="list-none" role="tabpanel" aria-labelledby="nothin">Click any list item to view its configuration...</div>
         @foreach (MacroDetails details in Model.Macros)

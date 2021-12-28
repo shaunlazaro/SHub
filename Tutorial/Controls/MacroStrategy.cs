@@ -100,7 +100,7 @@ namespace Tutorial.Controls
         }
     }
 
-    // Little bit of repetition between this and multiclick.  But, not worth abstracting yet, and I doubt I'll repeat myself a third time.
+    // Little bit of repetition between this and multiclick.  But, not worth abstracting yet, and I doubt I'll do something like this a third time
     public class MultiKeyPress : IMacroStrategy
     {
         public bool Running { get; set; } = false;

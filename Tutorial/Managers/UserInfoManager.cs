@@ -33,6 +33,7 @@ namespace Tutorial.Managers
         // and the setter should save if modifying directly is allowed.
         #region Public Variables
         public int NumberOfSavesPerformed { get => userData.numberOfSavesPerformed; set { userData.numberOfSavesPerformed = value; } }
+        public bool MacrosListening { get => userData.macrosListening; set { userData.macrosListening = value; Save(); } }
         public List<MacroDetails> CustomMacros { get => userData.customMacros; 
             set 
             {
@@ -83,6 +84,7 @@ namespace Tutorial.Managers
     class UserData  // It's a model in a manager folder :)
     {
         public int numberOfSavesPerformed = 0;
+        public bool macrosListening = false;
         public List<MacroDetails> customMacros = new List<MacroDetails>();
     }
 }
