@@ -38,8 +38,28 @@ namespace Tutorial.Managers
             set 
             {
                 List<MacroDetails> blackList = Helpers.DefaultMacroDetails();
-                List<MacroDetails> newList = value;
-                newList = newList.Except(blackList, new MacroDetailsComparer()).ToList();
+                List<MacroDetails> rawList = value;
+                List<MacroDetails> newList = new List<MacroDetails>();
+
+                foreach(MacroDetails details in rawList)
+                {
+                    bool elementBlackListed = false;
+                    foreach(MacroDetails banned in blackList)
+                    {
+                        if (details.name == banned.name)
+                        {
+                            elementBlackListed = true;
+                            break;
+                        }
+                    }
+
+                    if (!elementBlackListed)
+                        newList.Add(details);
+                }
+                
+                foreach (MacroDetails details in newList)
+                    Console.WriteLine("Macro to be saved: " + details.name);
+                userData.customMacros = newList;
                 Save(); 
             } 
         } // Make sure default macros are never saved here.
